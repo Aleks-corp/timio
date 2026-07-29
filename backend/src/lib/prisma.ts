@@ -12,7 +12,9 @@ const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
-const adapter = new PrismaPg({ connectionString });
+// Pin the Postgres session to UTC: the pg driver sends DateTime params as
+// tz-less strings, so a non-UTC session timezone silently shifts them.
+const adapter = new PrismaPg({ connectionString, options: "-c TimeZone=UTC" });
 
 export const prisma =
   globalForPrisma.prisma ??
