@@ -1,4 +1,4 @@
-import type { ErrorMessage } from "../types/error.type.js";
+import type { ErrorMessage } from "../types/index.js";
 
 const errorMessage: ErrorMessage = {
   400: "Bad Request",

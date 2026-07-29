@@ -17,10 +17,16 @@ model User {
   id           String    @id @default(uuid())
   name         String
   email        String    @unique
-  passwordHash String
+  // Nullable: OAuth-only accounts (see provider/providerId) have no password.
+  passwordHash String?
+  avatar       String?
+  provider     String?
+  providerId   String?
   createdAt    DateTime  @default(now()) @db.Timestamptz(3)
   updatedAt    DateTime  @updatedAt @db.Timestamptz(3)
   bookings     Booking[]
+
+  @@unique([provider, providerId])
 }
 
 model Room {

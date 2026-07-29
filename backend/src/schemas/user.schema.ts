@@ -1,13 +1,13 @@
 import Joi from "joi";
 
-import { emailRegexp } from "../constants/user.constant.js";
+import { EMAIL_REGEXP } from "../constants/index.js";
 
 export const usersRegSchema = Joi.object({
   name: Joi.string().required().min(3).max(18).messages({
     "string.empty": `'name' cannot be an empty field`,
     "any.required": `missing required 'name' field`,
   }),
-  email: Joi.string().pattern(emailRegexp).required().messages({
+  email: Joi.string().trim().lowercase().pattern(EMAIL_REGEXP).required().messages({
     "string.pattern.base": `'email' should be a type of 'email'`,
     "string.empty": `'email' cannot be an empty field`,
     "any.required": `missing required 'email' field`,
@@ -20,8 +20,20 @@ export const usersRegSchema = Joi.object({
   }),
 });
 
+export const oauthUpsertSchema = Joi.object({
+  provider: Joi.string().required(),
+  providerId: Joi.string().required(),
+  email: Joi.string().trim().lowercase().pattern(EMAIL_REGEXP).required().messages({
+    "string.pattern.base": `'email' should be a type of 'email'`,
+    "string.empty": `'email' cannot be an empty field`,
+    "any.required": `missing required 'email' field`,
+  }),
+  name: Joi.string().required().min(1).max(100),
+  avatar: Joi.string().uri().optional(),
+});
+
 export const usersLoginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required().messages({
+  email: Joi.string().trim().lowercase().pattern(EMAIL_REGEXP).required().messages({
     "string.pattern.base": `'email' should be a type of 'email'`,
     "string.empty": `'email' cannot be an empty field`,
     "any.required": `missing required 'email' field`,

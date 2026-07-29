@@ -6,9 +6,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { env } from "./env.js";
 
-import type { Err } from "./types/error.type.js";
+import type { Err } from "./types/index.js";
 
-import usersRouter from "./routes/user.route.js";
+import { usersRouter } from "./routes/index.js";
 
 const logPath = path.resolve("logs");
 

@@ -14,6 +14,7 @@ export const env = {
   NODE_ENV: getEnv("NODE_ENV", "development"),
   PORT: Number(getEnv("PORT", "5000")),
   DATABASE_URL: getEnv("DATABASE_URL"),
-  JWT_SECRET: getEnv("JWT_SECRET", "dev-secret"),
+  JWT_SECRET: getEnv("JWT_SECRET"),
+  COOKIE_DOMAIN: process.env.COOKIE_DOMAIN ?? "",
   FRONT_SERVER: process.env.FRONT_SERVER ?? "",
 };
