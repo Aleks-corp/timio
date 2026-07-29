@@ -1,0 +1,34 @@
+import Joi from "joi";
+
+import { emailRegexp } from "../constants/user.constant.js";
+
+export const usersRegSchema = Joi.object({
+  name: Joi.string().required().min(3).max(18).messages({
+    "string.empty": `'name' cannot be an empty field`,
+    "any.required": `missing required 'name' field`,
+  }),
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.pattern.base": `'email' should be a type of 'email'`,
+    "string.empty": `'email' cannot be an empty field`,
+    "any.required": `missing required 'email' field`,
+    "any.invalid": `Temporary emails are not allowed`,
+  }),
+  password: Joi.string().min(8).max(72).required().messages({
+    "string.pattern.base": "Пароль має містити 8-72 символів",
+    "string.empty": "Пароль не може бути пустим",
+    "any.required": "Поле 'password' є обов’язковим",
+  }),
+});
+
+export const usersLoginSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.pattern.base": `'email' should be a type of 'email'`,
+    "string.empty": `'email' cannot be an empty field`,
+    "any.required": `missing required 'email' field`,
+  }),
+  password: Joi.string().min(8).max(72).required().messages({
+    "string.pattern.base": "Пароль має містити 8-72 символів",
+    "string.empty": "Пароль не може бути пустим",
+    "any.required": "Поле 'password' є обов’язковим",
+  }),
+});
