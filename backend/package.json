@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "test": "tsx --test src/utils/*.test.ts",
     "start": "node dist/server.js",
     "prisma:init": "prisma init --datasource-provider postgresql",
     "prisma:generate": "prisma generate",

@@ -2,6 +2,8 @@ import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client.js";
+import { OFFICE_TIMEZONE } from "../src/constants/index.js";
+import { getWeekStartUtc, addDaysUtc, officeWallTimeToUtc, getOfficeDateParts } from "../src/utils/index.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -9,30 +11,18 @@ const adapter = new PrismaPg({
 });
 const prisma = new PrismaClient({ adapter });
 
-const OFFICE_TIMEZONE = "Europe/Kyiv";
-
-const KYIV_UTC_OFFSET_HOURS = 3;
-
-function kyivTimeToUtc(date: Date, hours: number, minutes: number): Date {
-  const result = new Date(date);
-  result.setUTCHours(hours - KYIV_UTC_OFFSET_HOURS, minutes, 0, 0);
-  return result;
+function officeTimeOnDay(date: Date, hours: number, minutes: number): Date {
+  const { year, month, day } = getOfficeDateParts(date);
+  return officeWallTimeToUtc(year, month, day, hours, minutes);
 }
 
 function mondayOfWeek(offsetWeeks: number): Date {
-  const now = new Date();
-  const day = now.getUTCDay() || 7;
-  const monday = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-  );
-  monday.setUTCDate(monday.getUTCDate() - day + 1 + offsetWeeks * 7);
-  return monday;
+  const thisWeek = getWeekStartUtc();
+  return offsetWeeks === 0 ? thisWeek : addDaysUtc(thisWeek, offsetWeeks * 7);
 }
 
 function addDays(date: Date, days: number): Date {
-  const result = new Date(date);
-  result.setUTCDate(result.getUTCDate() + days);
-  return result;
+  return addDaysUtc(date, days);
 }
 
 async function main() {
@@ -71,29 +61,29 @@ async function main() {
         title: "Спринт-планування",
         roomId: mars.id,
         userId: olena.id,
-        startAt: kyivTimeToUtc(addDays(thisWeek, 1), 10, 0),
-        endAt: kyivTimeToUtc(addDays(thisWeek, 1), 11, 0),
+        startAt: officeTimeOnDay(addDays(thisWeek, 1), 10, 0),
+        endAt: officeTimeOnDay(addDays(thisWeek, 1), 11, 0),
       },
       {
         title: "Дзвінок з клієнтом",
         roomId: gagarin.id,
         userId: ivan.id,
-        startAt: kyivTimeToUtc(addDays(thisWeek, 3), 14, 0),
-        endAt: kyivTimeToUtc(addDays(thisWeek, 3), 15, 30),
+        startAt: officeTimeOnDay(addDays(thisWeek, 3), 14, 0),
+        endAt: officeTimeOnDay(addDays(thisWeek, 3), 15, 30),
       },
       {
         title: "1:1 з менеджером",
         roomId: aquarium.id,
         userId: olena.id,
-        startAt: kyivTimeToUtc(addDays(nextWeek, 0), 9, 30),
-        endAt: kyivTimeToUtc(addDays(nextWeek, 0), 10, 0),
+        startAt: officeTimeOnDay(addDays(nextWeek, 0), 9, 30),
+        endAt: officeTimeOnDay(addDays(nextWeek, 0), 10, 0),
       },
       {
         title: "Демо для команди",
         roomId: jupiter.id,
         userId: ivan.id,
-        startAt: kyivTimeToUtc(addDays(nextWeek, 2), 16, 0),
-        endAt: kyivTimeToUtc(addDays(nextWeek, 2), 17, 0),
+        startAt: officeTimeOnDay(addDays(nextWeek, 2), 16, 0),
+        endAt: officeTimeOnDay(addDays(nextWeek, 2), 17, 0),
       },
     ],
   });

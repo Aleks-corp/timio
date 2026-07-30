@@ -1,0 +1,15 @@
+export const OFFICE_TIMEZONE = "Europe/Kyiv";
+export const OFFICE_OPEN_MINUTES = 9 * 60;
+export const OFFICE_CLOSE_MINUTES = 19 * 60;
+export const MIN_BOOKING_MINUTES = 30;
+export const MAX_BOOKING_MINUTES = 4 * 60;
+export const SLOT_MINUTES = 30;
+
+export default {
+  OFFICE_TIMEZONE,
+  OFFICE_OPEN_MINUTES,
+  OFFICE_CLOSE_MINUTES,
+  MIN_BOOKING_MINUTES,
+  MAX_BOOKING_MINUTES,
+  SLOT_MINUTES,
+};

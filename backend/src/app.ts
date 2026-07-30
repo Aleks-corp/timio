@@ -8,7 +8,7 @@ import { env } from "./env.js";
 
 import type { Err } from "./types/index.js";
 
-import { usersRouter } from "./routes/index.js";
+import { usersRouter, roomsRouter, bookingsRouter } from "./routes/index.js";
 
 const logPath = path.resolve("logs");
 
@@ -50,6 +50,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/auth", usersRouter);
+app.use("/rooms", roomsRouter);
+app.use("/bookings", bookingsRouter);
 
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok" });
