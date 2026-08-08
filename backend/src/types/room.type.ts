@@ -3,4 +3,5 @@ export interface PublicRoom {
   name: string;
   floor: number;
   capacity: number;
+  amenities: string[];
 }

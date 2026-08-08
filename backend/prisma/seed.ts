@@ -44,12 +44,24 @@ async function main() {
   ]);
 
   const [aquarium, mars, gagarin, jupiter, saturn, venus] = await Promise.all([
-    prisma.room.create({ data: { name: "Aquarium", floor: 2, capacity: 4 } }),
-    prisma.room.create({ data: { name: "Mars", floor: 3, capacity: 8 } }),
-    prisma.room.create({ data: { name: "Gagarin", floor: 3, capacity: 12 } }),
-    prisma.room.create({ data: { name: "Jupiter", floor: 2, capacity: 6 } }),
-    prisma.room.create({ data: { name: "Saturn", floor: 4, capacity: 10 } }),
-    prisma.room.create({ data: { name: "Venus", floor: 2, capacity: 2 } }),
+    prisma.room.create({
+      data: { name: "Aquarium", floor: 2, capacity: 4, amenities: ["TV", "Whiteboard", "Video call", "Quiet"] },
+    }),
+    prisma.room.create({
+      data: { name: "Mars", floor: 3, capacity: 8, amenities: ["Whiteboard", "Video call"] },
+    }),
+    prisma.room.create({
+      data: { name: "Gagarin", floor: 3, capacity: 12, amenities: ["TV", "Screen", "Video call"] },
+    }),
+    prisma.room.create({
+      data: { name: "Jupiter", floor: 2, capacity: 6, amenities: ["Whiteboard", "Focus"] },
+    }),
+    prisma.room.create({
+      data: { name: "Saturn", floor: 4, capacity: 10, amenities: ["Screen", "Presentation", "Hybrid"] },
+    }),
+    prisma.room.create({
+      data: { name: "Venus", floor: 2, capacity: 2, amenities: ["Quiet", "Focus"] },
+    }),
   ]);
 
   const thisWeek = mondayOfWeek(0);

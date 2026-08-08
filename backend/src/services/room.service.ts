@@ -9,6 +9,7 @@ function toPublicRoom(room: RoomModel): PublicRoom {
     name: room.name,
     floor: room.floor,
     capacity: room.capacity,
+    amenities: room.amenities,
   };
 }
 
