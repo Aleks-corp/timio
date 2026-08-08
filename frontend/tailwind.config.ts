@@ -5,95 +5,57 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sora: ["var(--font-sora)", "sans-serif"],
+        "inter-tight": ["var(--font-inter-tight)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
-        helvetica: ["var(--font-helvetica)", "sans-serif"],
-      },
-      screens: {
-        sm: "390px",
-        md: "744px",
-        tab: "502px",
-        tabx: "630px",
-        lg: "1024px",
-        xl: "1200px",
-        xxl: "1440px",
-        "2xl": "1560px",
-      },
-      borderRadius: {
-        lg: "8px",
-        md: "6px",
-        sm: "4px",
+        helvetica: ["var(--font-helvetica)"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "var(--color-background)",
+        heading: "var(--color-heading)",
+        strong: "var(--color-strong)",
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
-          background: "var(--muted-background)",
-          text: "var(--muted-text)",
+          DEFAULT: "var(--color-muted)",
+          light: "var(--color-muted-light)",
+          mid: "var(--color-muted-mid)",
         },
-        text: {
-          DEFAULT: "var(--text-grey)",
-          white: "var(--text-white)",
+        border: "var(--color-border)",
+        input: "var(--color-input-bg)",
+        accent: "var(--color-accent)",
+        error: {
+          DEFAULT: "var(--color-error)",
+          bg: "var(--color-error-bg)",
         },
-        accent: {
-          DEFAULT: "var(--accent)",
-          hover: "var(--accent-hover)",
-          foreground: "var(--accent-foreground)",
+        rating: "var(--color-rating)",
+        google: {
+          from: "var(--color-google-from)",
+          to: "var(--color-google-to)",
         },
-        hover: {
-          DEFAULT: "var(--hover)",
-          foreground: "var(--hover-foreground)",
-        },
-        btn: {
-          DEFAULT: "var(---background-btn)",
-          hover: "var(--background-btn-hover)",
-        },
-        icon: {
-          DEFAULT: "var(--icon-bg)",
-          foreground: "var(--icon-foreground)",
-        },
-        border: {
-          DEFAULT: "var(--border-bg)",
-          foreground: "var(--border-foreground)",
-          focus: "var(--border-bg-focus)",
+        cta: {
+          from: "var(--color-cta-from)",
+          via: "var(--color-cta-via)",
+          to: "var(--color-cta-to)",
         },
       },
-      letterSpacing: {
-        thin: "-0.01em",
-        thiner: "-0.02em",
-        thinest: "-0.03em",
+      borderRadius: {
+        card: "var(--radius-card)",
+        panel: "var(--radius-panel)",
+        logo: "var(--radius-logo)",
+        input: "var(--radius-input)",
+        button: "var(--radius-button)",
       },
-
       boxShadow: {
-        btn: "var(--box-shadow-btn)",
-        input: {
-          DEFAULT: "var(--box-shadow-input)",
-          hover: "var(--box-shadow-input-hover)",
-        },
-        icon: "var(--box-shadow-icon)",
-        count: "var(--box-shadow-count)",
-        sub: "var(--box-shadow-sub)",
-        switch: {
-          box: "var(--box-shadow-switch-box)",
-          btn: "var(--box-shadow-switch-btn)",
-        },
-        card: {
-          course: "var(--box-shadow-course-card)",
-          video: "var(--box-shadow-video-card)",
-        },
-        btns: { scroll: "var(--box-shadow-btn-scroll)" },
-        select: "var(--box-shadow-select)",
+        google: "var(--shadow-google)",
+        cta: "var(--shadow-cta)",
       },
-      animation: {
-        marquee: "scroll 25s linear infinite",
-      },
-      keyframes: {
-        scroll: {
-          "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-25%)" },
-        },
+      fontSize: {
+        hero: ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "500" }],
+        subtitle: ["16px", { lineHeight: "26px", fontWeight: "400" }],
+        label: ["12px", { lineHeight: "16px", letterSpacing: "-0.01em", fontWeight: "500" }],
+        caption: ["11px", { lineHeight: "16px", letterSpacing: "-0.01em", fontWeight: "500" }],
+        "google-btn": ["14px", { lineHeight: "20px", letterSpacing: "-0.02em", fontWeight: "600" }],
+        "cta-btn": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+        testimonial: ["24px", { lineHeight: "28px", fontWeight: "500" }],
+        "testimonial-author": ["16px", { lineHeight: "28px", fontWeight: "400" }],
       },
     },
   },
