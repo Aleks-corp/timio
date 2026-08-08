@@ -46,6 +46,9 @@
   --color-booking-other-text: #14535c;
   --color-booking-other-subtle: #4e7d84;
 
+  --color-cancel-bg: #fcefef;
+  --color-cancel-text: #c74545;
+
   --radius-card: 32px;
   --radius-panel: 30px;
   --radius-logo: 16px;

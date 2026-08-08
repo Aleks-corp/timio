@@ -1,5 +1,5 @@
 import { ApiError } from "./api";
-import { getOfficeDayRange } from "./officeTime";
+import { formatDateKey, formatTimeInZone, getMondayOfWeek, getOfficeDayRange } from "./officeTime";
 
 export const DURATION_OPTIONS_MINUTES = [30, 60, 90, 120, 150, 180, 210, 240];
 
@@ -26,6 +26,62 @@ export function isStartInPast(startAt: Date, now: Date = new Date()): boolean {
 export interface BookingSubmitErrorPresentation {
   message: string;
   shouldRefreshAvailability: boolean;
+}
+
+const bookingDateFormatterCache = new Map<string, Intl.DateTimeFormat>();
+
+export function formatBookingDateLabel(date: Date, timeZone: string): string {
+  let formatter = bookingDateFormatterCache.get(timeZone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+    bookingDateFormatterCache.set(timeZone, formatter);
+  }
+  return formatter.format(date);
+}
+
+export function formatBookingTimeRangeLabel(startAt: Date, endAt: Date, timeZone: string): string {
+  return `${formatTimeInZone(startAt, timeZone)}-${formatTimeInZone(endAt, timeZone)}`;
+}
+
+export function getBookingScheduleHref(roomId: string, startAt: Date): string {
+  const weekKey = formatDateKey(getMondayOfWeek(startAt));
+  const params = new URLSearchParams({ roomId, week: weekKey });
+  return `/dashboard/schedule?${params.toString()}`;
+}
+
+export interface CancelErrorPresentation {
+  message: string;
+  shouldRefreshList: boolean;
+}
+
+export function resolveCancelError(error: unknown): CancelErrorPresentation {
+  if (error instanceof ApiError) {
+    if (error.status === 404) {
+      return { message: "This booking is no longer available.", shouldRefreshList: true };
+    }
+    if (error.status === 403) {
+      return { message: "You can only cancel your own booking.", shouldRefreshList: false };
+    }
+    if (error.status === 401) {
+      return {
+        message: "Your session has expired. Sign in again to continue.",
+        shouldRefreshList: false,
+      };
+    }
+    if (error.status === 0) {
+      return {
+        message: "Couldn't reach the server. Check your connection and try again.",
+        shouldRefreshList: false,
+      };
+    }
+    return { message: error.message, shouldRefreshList: false };
+  }
+  return { message: "Something went wrong. Please try again.", shouldRefreshList: false };
 }
 
 export function resolveBookingSubmitError(error: unknown): BookingSubmitErrorPresentation {

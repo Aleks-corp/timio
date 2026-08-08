@@ -46,6 +46,10 @@ const config: Config = {
           DEFAULT: "var(--color-error)",
           bg: "var(--color-error-bg)",
         },
+        cancel: {
+          bg: "var(--color-cancel-bg)",
+          text: "var(--color-cancel-text)",
+        },
         rating: "var(--color-rating)",
         google: {
           from: "var(--color-google-from)",
