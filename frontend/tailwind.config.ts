@@ -27,6 +27,21 @@ const config: Config = {
         },
         sidebar: "var(--color-sidebar-bg)",
         card: "var(--color-card-bg)",
+        grid: {
+          border: "var(--color-grid-border)",
+          weekend: "var(--color-grid-weekend)",
+          today: "var(--color-grid-today)",
+          muted: "var(--color-grid-muted)",
+        },
+        "now-line": "var(--color-now-line)",
+        booking: {
+          mine: "var(--color-booking-mine)",
+          "mine-subtle": "var(--color-booking-mine-subtle)",
+          "other-bg": "var(--color-booking-other-bg)",
+          "other-border": "var(--color-booking-other-border)",
+          "other-text": "var(--color-booking-other-text)",
+          "other-subtle": "var(--color-booking-other-subtle)",
+        },
         error: {
           DEFAULT: "var(--color-error)",
           bg: "var(--color-error-bg)",

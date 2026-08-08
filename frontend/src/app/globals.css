@@ -1,11 +1,6 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
-/*
- * Design tokens extracted from the TIMIO Figma file
- * (file ZwJVYgJwsCUR82VAUxHoS3, page "☀ • Visual Design - Light", "Sign up" frame
- * + "📂 • Styleguide" page). No dark mode: the file only has a light-mode page.
- */
 :root {
   --color-background: #f7f7f7;
 
@@ -18,12 +13,10 @@
   --color-border: #e2e2e2;
   --color-input-bg: #fcfcfc;
 
-  /* Brand teal — matches the logo mark gradient and the styleguide's default Button/Primary fill */
   --color-accent: #34919b;
   --color-accent-from: #95d0d5;
   --color-accent-to: #379aa4;
 
-  /* Near-black CTA used specifically on the Sign up screen (distinct from the teal styleguide default) */
   --color-cta-from: #0d1212;
   --color-cta-via: #171e1f;
   --color-cta-to: #0d1212;
@@ -32,16 +25,26 @@
   --color-google-to: #e2e2e2;
   --color-google-outline: #d4d4d4;
 
-  /* Error state, from the "Text Input / State=Error" styleguide component */
   --color-error: #de4400;
   --color-error-bg: #f8fafa;
 
-  /* Rating stars in the testimonial card, from the styleguide "Yellow" ramp (500) */
   --color-rating: #ffc84c;
 
-  /* Dashboard shell — from the "1440w light" (Timio) dashboard frame, node 164:10248 */
   --color-sidebar-bg: #f1f4f5;
   --color-card-bg: #ffffff;
+
+  --color-grid-border: #e7ecee;
+  --color-grid-weekend: #f3f3f0;
+  --color-grid-today: #f0fafb;
+  --color-grid-muted: #6b7280;
+  --color-now-line: #ff6930;
+
+  --color-booking-mine: #2e8691;
+  --color-booking-mine-subtle: #d9edf0;
+  --color-booking-other-bg: #e4f2f4;
+  --color-booking-other-border: #c7e2e6;
+  --color-booking-other-text: #14535c;
+  --color-booking-other-subtle: #4e7d84;
 
   --radius-card: 32px;
   --radius-panel: 30px;
@@ -52,22 +55,18 @@
   --radius-room-card: 12px;
 
   --shadow-google:
-    0 3px 4px -1px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.33),
+    0 3px 4px -1px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.33),
     0 0 0 1px var(--color-google-outline);
   --shadow-cta:
-    0 1px 2px rgba(14, 18, 27, 0.16),
-    0 0 0 1px rgba(0, 29, 33, 0.8);
-  /* Soft elevated card shadow, from "section.panel:shadow" */
+    0 1px 2px rgba(14, 18, 27, 0.16), 0 0 0 1px rgba(0, 29, 33, 0.8);
+
   --shadow-widget:
-    0 1px 2px rgba(9, 25, 72, 0.13),
-    0 0 0 1px rgba(18, 55, 105, 0.08),
+    0 1px 2px rgba(9, 25, 72, 0.13), 0 0 0 1px rgba(18, 55, 105, 0.08),
     0 10px 50px rgba(9, 25, 72, 0.06);
 
-  /* Helvetica Neue isn't a licensable web font (not on Google Fonts) — the CTA
-     label falls back to the OS system sans where "Helvetica Neue" is installed. */
   --font-helvetica:
-    -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
 body {

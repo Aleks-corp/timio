@@ -17,7 +17,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
           </div>
         </div>
 
-        <div className="relative hidden w-1/2 overflow-hidden rounded-panel lg:block">
+        <div className="relative hidden w-2/3 overflow-hidden rounded-panel lg:block">
           <Image
             src="/images/signup-room.jpg"
             alt="A modern meeting room with green fluted wall panels, a wooden table and ergonomic chairs"
@@ -26,12 +26,12 @@ export function AuthLayout({ children }: AuthLayoutProps) {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-x-0 bottom-0 flex flex-col gap-5 bg-gradient-to-t from-black/70 to-transparent p-6 backdrop-blur-md">
+          <div className="absolute inset-x-0 bottom-0 rounded-b-panel flex flex-col gap-5 bg-gradient-to-t from-black/70 to-transparent p-6 backdrop-blur-md">
             <p className="text-testimonial text-white">
               Booking a room now takes seconds — no more double bookings or
               hunting for a free space before a call.
             </p>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center justify-between gap-2.5">
               <p className="text-testimonial-author text-white/70">
                 Olena K. - Office Manager
               </p>

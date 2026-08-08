@@ -1,13 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Room } from "@/lib/roomsApi";
-
-const ROOM_PHOTOS = [
-  "/images/rooms/aquarium.jpg",
-  "/images/rooms/mars.jpg",
-  "/images/rooms/oasis.jpg",
-  "/images/rooms/atlas.jpg",
-];
+import { getRoomPhoto, type Room } from "@/lib/roomsApi";
 
 interface RoomCardProps {
   room: Room;
@@ -15,7 +8,7 @@ interface RoomCardProps {
 }
 
 export function RoomCard({ room, index }: RoomCardProps) {
-  const photo = ROOM_PHOTOS[index % ROOM_PHOTOS.length];
+  const photo = getRoomPhoto(index);
 
   return (
     <Link

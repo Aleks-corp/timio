@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type DependencyList } from "react";
 import { ApiError } from "./api";
 
 export type AsyncState<T> =
@@ -8,8 +8,22 @@ export type AsyncState<T> =
   | { status: "error"; message: string }
   | { status: "success"; data: T };
 
-export function useAsyncResource<T>(fetcher: () => Promise<T>): AsyncState<T> {
+function depsEqual(a: DependencyList, b: DependencyList): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((value, i) => Object.is(value, b[i]));
+}
+
+export function useAsyncResource<T>(
+  fetcher: () => Promise<T>,
+  deps: DependencyList = [],
+): AsyncState<T> {
   const [state, setState] = useState<AsyncState<T>>({ status: "loading" });
+  const [fetchedDeps, setFetchedDeps] = useState<DependencyList>(deps);
+
+  if (!depsEqual(deps, fetchedDeps)) {
+    setFetchedDeps(deps);
+    setState({ status: "loading" });
+  }
 
   useEffect(() => {
     let ignore = false;
@@ -34,7 +48,7 @@ export function useAsyncResource<T>(fetcher: () => Promise<T>): AsyncState<T> {
       ignore = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, deps);
 
   return state;
 }
