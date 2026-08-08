@@ -61,14 +61,14 @@ test("getBookingWindowError: rejects a window in the past", () => {
   startAt.setUTCMinutes(startAt.getUTCMinutes() < 30 ? 0 : 30, 0, 0);
   startAt.setTime(startAt.getTime() - 60 * 60 * 1000); // 1h in the past, still 30-min aligned
   const endAt = new Date(startAt.getTime() + 30 * 60 * 1000);
-  assert.match(getBookingWindowError(startAt, endAt) ?? "", /майбутньому/);
+  assert.match(getBookingWindowError(startAt, endAt) ?? "", /future/);
 });
 
 test("getBookingWindowError: rejects a duration over 4 hours", () => {
   const startAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   startAt.setUTCHours(10, 0, 0, 0);
   const endAt = new Date(startAt.getTime() + 5 * 60 * 60 * 1000); // 5h, still 30-min aligned
-  assert.match(getBookingWindowError(startAt, endAt) ?? "", /30 хвилин до 4 годин/);
+  assert.match(getBookingWindowError(startAt, endAt) ?? "", /30 minutes and 4 hours/);
 });
 
 test("getBookingWindowError: accepts a valid future in-hours window", () => {

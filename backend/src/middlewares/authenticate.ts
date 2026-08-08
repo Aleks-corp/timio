@@ -11,7 +11,7 @@ const authenticate = async (
 ): Promise<void> => {
   const token = req.cookies?.[AUTH_COOKIE_NAME];
   if (!token) {
-    throw HttpError(401, "Не авторизовано");
+    throw HttpError(401, "Not authenticated");
   }
   req.userId = verifyToken(token);
   next();

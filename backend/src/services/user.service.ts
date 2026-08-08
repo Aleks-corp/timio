@@ -37,7 +37,7 @@ export async function registerUser(input: {
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
-    throw HttpError(409, "Користувач з таким email вже зареєстрований");
+    throw HttpError(409, "A user with this email is already registered");
   }
 
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
@@ -50,7 +50,7 @@ export async function registerUser(input: {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2002"
     ) {
-      throw HttpError(409, "Користувач з таким email вже зареєстрований");
+      throw HttpError(409, "A user with this email is already registered");
     }
     throw error;
   }
@@ -70,7 +70,7 @@ export async function loginUser(input: {
     !user.passwordHash ||
     !(await bcrypt.compare(password, user.passwordHash))
   ) {
-    throw HttpError(401, "Невірний email або пароль");
+    throw HttpError(401, "Invalid email or password");
   }
 
   return { token: signToken(user.id), user: toPublicUser(user) };
@@ -126,7 +126,7 @@ export async function oauthUpsertUser(input: {
 export async function getCurrentUser(userId: string): Promise<PublicUser> {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
-    throw HttpError(401, "Не авторизовано");
+    throw HttpError(401, "Not authenticated");
   }
   return toPublicUser(user);
 }
@@ -139,6 +139,6 @@ export function verifyToken(token: string): string {
     }
     return payload.id;
   } catch {
-    throw HttpError(401, "Не авторизовано");
+    throw HttpError(401, "Not authenticated");
   }
 }

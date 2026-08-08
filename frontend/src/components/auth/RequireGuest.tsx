@@ -15,7 +15,7 @@ export function RequireGuest({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.replace("/account");
+      router.replace("/dashboard");
     }
   }, [status, router]);
 

@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 export interface PublicUser {
   id: string;
@@ -22,7 +22,7 @@ interface RequestOptions {
   body?: unknown;
 }
 
-async function request<T>(path: string, { method, body }: RequestOptions): Promise<T> {
+export async function request<T>(path: string, { method, body }: RequestOptions): Promise<T> {
   let response: Response;
   try {
     response = await fetch(`${API_BASE_URL}${path}`, {
@@ -32,7 +32,7 @@ async function request<T>(path: string, { method, body }: RequestOptions): Promi
       body: body !== undefined ? JSON.stringify(body) : undefined,
     });
   } catch {
-    throw new ApiError(0, "Не вдалося звʼязатися з сервером. Перевірте зʼєднання і спробуйте ще раз.");
+    throw new ApiError(0, "Couldn't connect to the server. Check your connection and try again.");
   }
 
   if (response.status === 204) {
@@ -42,7 +42,7 @@ async function request<T>(path: string, { method, body }: RequestOptions): Promi
   const data = await response.json().catch(() => ({}) as { message?: string });
 
   if (!response.ok) {
-    throw new ApiError(response.status, data.message ?? "Щось пішло не так. Спробуйте ще раз.");
+    throw new ApiError(response.status, data.message ?? "Something went wrong. Please try again.");
   }
 
   return data as T;

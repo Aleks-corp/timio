@@ -43,20 +43,20 @@ export function isWithinOfficeHours(startAt: Date, endAt: Date): boolean {
 // availability check, and easy to unit test in isolation.
 export function getBookingWindowError(startAt: Date, endAt: Date): string | null {
   if (Number.isNaN(startAt.getTime()) || Number.isNaN(endAt.getTime()) || endAt <= startAt) {
-    return "Невалідний інтервал бронювання";
+    return "Invalid booking interval";
   }
   if (!isAlignedToSlot(startAt) || !isAlignedToSlot(endAt)) {
-    return "Час має бути кратним 30 хвилинам";
+    return "Time must be aligned to 30-minute slots";
   }
   const duration = getDurationMinutes(startAt, endAt);
   if (duration < MIN_BOOKING_MINUTES || duration > MAX_BOOKING_MINUTES) {
-    return "Тривалість бронювання має бути від 30 хвилин до 4 годин";
+    return "Booking duration must be between 30 minutes and 4 hours";
   }
   if (startAt.getTime() <= Date.now()) {
-    return "Час бронювання має бути в майбутньому";
+    return "Booking time must be in the future";
   }
   if (!isWithinOfficeHours(startAt, endAt)) {
-    return "Бронювання можливе лише з 09:00 до 19:00 за часом офісу";
+    return "Bookings are only allowed from 09:00 to 19:00 office time";
   }
   return null;
 }

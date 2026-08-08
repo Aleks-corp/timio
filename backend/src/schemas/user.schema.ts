@@ -14,9 +14,9 @@ export const usersRegSchema = Joi.object({
     "any.invalid": `Temporary emails are not allowed`,
   }),
   password: Joi.string().min(8).max(72).required().messages({
-    "string.pattern.base": "Пароль має містити 8-72 символів",
-    "string.empty": "Пароль не може бути пустим",
-    "any.required": "Поле 'password' є обов’язковим",
+    "string.pattern.base": "Password must be 8-72 characters",
+    "string.empty": "Password cannot be empty",
+    "any.required": "'password' field is required",
   }),
 });
 
@@ -39,8 +39,8 @@ export const usersLoginSchema = Joi.object({
     "any.required": `missing required 'email' field`,
   }),
   password: Joi.string().min(8).max(72).required().messages({
-    "string.pattern.base": "Пароль має містити 8-72 символів",
-    "string.empty": "Пароль не може бути пустим",
-    "any.required": "Поле 'password' є обов’язковим",
+    "string.pattern.base": "Password must be 8-72 characters",
+    "string.empty": "Password cannot be empty",
+    "any.required": "'password' field is required",
   }),
 });

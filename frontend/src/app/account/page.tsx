@@ -1,15 +1,5 @@
-import type { Metadata } from "next";
-import { RequireAuth } from "@/components/auth/RequireAuth";
-import { AccountView } from "./AccountView";
-
-export const metadata: Metadata = {
-  title: "Account — Timio",
-};
+import { redirect } from "next/navigation";
 
 export default function AccountPage() {
-  return (
-    <RequireAuth>
-      <AccountView />
-    </RequireAuth>
-  );
+  redirect("/dashboard");
 }

@@ -39,11 +39,17 @@
   /* Rating stars in the testimonial card, from the styleguide "Yellow" ramp (500) */
   --color-rating: #ffc84c;
 
+  /* Dashboard shell — from the "1440w light" (Timio) dashboard frame, node 164:10248 */
+  --color-sidebar-bg: #f1f4f5;
+  --color-card-bg: #ffffff;
+
   --radius-card: 32px;
   --radius-panel: 30px;
   --radius-logo: 16px;
   --radius-input: 12px;
   --radius-button: 8px;
+  --radius-widget: 16px;
+  --radius-room-card: 12px;
 
   --shadow-google:
     0 3px 4px -1px rgba(0, 0, 0, 0.15),
@@ -52,6 +58,11 @@
   --shadow-cta:
     0 1px 2px rgba(14, 18, 27, 0.16),
     0 0 0 1px rgba(0, 29, 33, 0.8);
+  /* Soft elevated card shadow, from "section.panel:shadow" */
+  --shadow-widget:
+    0 1px 2px rgba(9, 25, 72, 0.13),
+    0 0 0 1px rgba(18, 55, 105, 0.08),
+    0 10px 50px rgba(9, 25, 72, 0.06);
 
   /* Helvetica Neue isn't a licensable web font (not on Google Fonts) — the CTA
      label falls back to the OS system sans where "Helvetica Neue" is installed. */

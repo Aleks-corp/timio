@@ -38,16 +38,16 @@ export function SignUpForm() {
       setCreatedUserName(user.name);
     } catch (error) {
       if (!(error instanceof ApiError)) {
-        setServerError("Щось пішло не так. Спробуйте ще раз.");
+        setServerError("Something went wrong. Please try again.");
         return;
       }
 
       const lowerMessage = error.message.toLowerCase();
       if (lowerMessage.includes("email")) {
         setError("email", { message: error.message });
-      } else if (lowerMessage.includes("пароль") || lowerMessage.includes("password")) {
+      } else if (lowerMessage.includes("password")) {
         setError("password", { message: error.message });
-      } else if (lowerMessage.includes("ім") || lowerMessage.includes("name")) {
+      } else if (lowerMessage.includes("name")) {
         setError("name", { message: error.message });
       } else {
         setServerError(error.message);

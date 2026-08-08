@@ -23,7 +23,7 @@ export async function listRooms(minCapacity?: number): Promise<PublicRoom[]> {
 export async function getRoomOrThrow(roomId: string): Promise<RoomModel> {
   const room = await prisma.room.findUnique({ where: { id: roomId } });
   if (!room) {
-    throw HttpError(404, "Кімнату не знайдено");
+    throw HttpError(404, "Room not found");
   }
   return room;
 }

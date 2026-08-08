@@ -32,12 +32,12 @@ export function SignInForm() {
     setServerError(null);
     try {
       await login({ email: values.email, password: values.password });
-      router.push("/account");
+      router.push("/dashboard");
     } catch (error) {
       setServerError(
         error instanceof ApiError
           ? error.message
-          : "Не вдалося увійти. Спробуйте ще раз.",
+          : "Couldn't sign in. Please try again.",
       );
     }
   };

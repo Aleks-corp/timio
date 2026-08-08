@@ -36,7 +36,7 @@ async function main() {
 
   const [olena, ivan] = await Promise.all([
     prisma.user.create({
-      data: { name: "Олена Коваль", email: "elena@timio.dev", passwordHash },
+      data: { name: "Olena Koval", email: "elena@timio.dev", passwordHash },
     }),
     prisma.user.create({
       data: { name: "Ivan Petrenko", email: "ivan@timio.dev", passwordHash },
@@ -44,12 +44,12 @@ async function main() {
   ]);
 
   const [aquarium, mars, gagarin, jupiter, saturn, venus] = await Promise.all([
-    prisma.room.create({ data: { name: "Акваріум", floor: 2, capacity: 4 } }),
-    prisma.room.create({ data: { name: "Марс", floor: 3, capacity: 8 } }),
-    prisma.room.create({ data: { name: "Гагарін", floor: 3, capacity: 12 } }),
-    prisma.room.create({ data: { name: "Юпітер", floor: 2, capacity: 6 } }),
-    prisma.room.create({ data: { name: "Сатурн", floor: 4, capacity: 10 } }),
-    prisma.room.create({ data: { name: "Венера", floor: 2, capacity: 2 } }),
+    prisma.room.create({ data: { name: "Aquarium", floor: 2, capacity: 4 } }),
+    prisma.room.create({ data: { name: "Mars", floor: 3, capacity: 8 } }),
+    prisma.room.create({ data: { name: "Gagarin", floor: 3, capacity: 12 } }),
+    prisma.room.create({ data: { name: "Jupiter", floor: 2, capacity: 6 } }),
+    prisma.room.create({ data: { name: "Saturn", floor: 4, capacity: 10 } }),
+    prisma.room.create({ data: { name: "Venus", floor: 2, capacity: 2 } }),
   ]);
 
   const thisWeek = mondayOfWeek(0);
@@ -58,28 +58,28 @@ async function main() {
   await prisma.booking.createMany({
     data: [
       {
-        title: "Спринт-планування",
+        title: "Sprint planning",
         roomId: mars.id,
         userId: olena.id,
         startAt: officeTimeOnDay(addDays(thisWeek, 1), 10, 0),
         endAt: officeTimeOnDay(addDays(thisWeek, 1), 11, 0),
       },
       {
-        title: "Дзвінок з клієнтом",
+        title: "Client call",
         roomId: gagarin.id,
         userId: ivan.id,
         startAt: officeTimeOnDay(addDays(thisWeek, 3), 14, 0),
         endAt: officeTimeOnDay(addDays(thisWeek, 3), 15, 30),
       },
       {
-        title: "1:1 з менеджером",
+        title: "1:1 with manager",
         roomId: aquarium.id,
         userId: olena.id,
         startAt: officeTimeOnDay(addDays(nextWeek, 0), 9, 30),
         endAt: officeTimeOnDay(addDays(nextWeek, 0), 10, 0),
       },
       {
-        title: "Демо для команди",
+        title: "Team demo",
         roomId: jupiter.id,
         userId: ivan.id,
         startAt: officeTimeOnDay(addDays(nextWeek, 2), 16, 0),

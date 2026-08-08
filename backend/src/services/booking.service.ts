@@ -43,7 +43,7 @@ export async function createBooking(input: {
       where: { roomId, startAt: { lt: endAt }, endAt: { gt: startAt } },
     });
     if (conflict) {
-      throw HttpError(409, "Обраний слот вже зайнятий");
+      throw HttpError(409, "The selected slot is already taken");
     }
 
     return tx.booking.create({ data: { roomId, userId, title, startAt, endAt } });
@@ -55,10 +55,10 @@ export async function createBooking(input: {
 export async function cancelBooking(bookingId: string, userId: string): Promise<void> {
   const booking = await prisma.booking.findUnique({ where: { id: bookingId } });
   if (!booking) {
-    throw HttpError(404, "Бронювання не знайдено");
+    throw HttpError(404, "Booking not found");
   }
   if (booking.userId !== userId) {
-    throw HttpError(403, "Можна скасувати лише власне бронювання");
+    throw HttpError(403, "You can only cancel your own booking");
   }
 
   try {
@@ -119,7 +119,7 @@ export async function checkAvailability(input: {
     where: { roomId, startAt: { lt: endAt }, endAt: { gt: startAt } },
   });
 
-  return conflict ? { available: false, reason: "Обраний слот вже зайнятий" } : { available: true };
+  return conflict ? { available: false, reason: "The selected slot is already taken" } : { available: true };
 }
 
 export async function listMyBookings(
