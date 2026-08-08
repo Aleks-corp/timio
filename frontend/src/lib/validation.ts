@@ -20,3 +20,15 @@ export const signUpSchema = yup.object({
 });
 
 export type SignUpFormValues = yup.InferType<typeof signUpSchema>;
+
+export const signInSchema = yup.object({
+  email: yup
+    .string()
+    .trim()
+    .lowercase()
+    .email("Введіть коректний email")
+    .required("Вкажіть email"),
+  password: yup.string().required("Вкажіть пароль"),
+});
+
+export type SignInFormValues = yup.InferType<typeof signInSchema>;

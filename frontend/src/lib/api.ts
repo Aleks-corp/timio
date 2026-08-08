@@ -17,23 +17,26 @@ export class ApiError extends Error {
   }
 }
 
-export interface SignupInput {
-  name: string;
-  email: string;
-  password: string;
+interface RequestOptions {
+  method: "GET" | "POST";
+  body?: unknown;
 }
 
-export async function signup(input: SignupInput): Promise<{ user: PublicUser }> {
+async function request<T>(path: string, { method, body }: RequestOptions): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      method,
+      headers: body !== undefined ? { "Content-Type": "application/json" } : undefined,
       credentials: "include",
-      body: JSON.stringify(input),
+      body: body !== undefined ? JSON.stringify(body) : undefined,
     });
   } catch {
     throw new ApiError(0, "Не вдалося звʼязатися з сервером. Перевірте зʼєднання і спробуйте ще раз.");
+  }
+
+  if (response.status === 204) {
+    return undefined as T;
   }
 
   const data = await response.json().catch(() => ({}) as { message?: string });
@@ -42,5 +45,32 @@ export async function signup(input: SignupInput): Promise<{ user: PublicUser }> 
     throw new ApiError(response.status, data.message ?? "Щось пішло не так. Спробуйте ще раз.");
   }
 
-  return data as { user: PublicUser };
+  return data as T;
+}
+
+export interface SignupInput {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export async function signup(input: SignupInput): Promise<{ user: PublicUser }> {
+  return request<{ user: PublicUser }>("/auth/signup", { method: "POST", body: input });
+}
+
+export interface SigninInput {
+  email: string;
+  password: string;
+}
+
+export async function signin(input: SigninInput): Promise<{ user: PublicUser }> {
+  return request<{ user: PublicUser }>("/auth/signin", { method: "POST", body: input });
+}
+
+export async function getCurrentUser(): Promise<{ user: PublicUser }> {
+  return request<{ user: PublicUser }>("/auth/current", { method: "GET" });
+}
+
+export async function logout(): Promise<void> {
+  await request<void>("/auth/signout", { method: "POST" });
 }

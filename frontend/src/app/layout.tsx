@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter_Tight, Inter } from "next/font/google";
+import { AuthProvider } from "@/providers/AuthProvider";
 import "./globals.css";
 
 const interTight = Inter_Tight({
@@ -29,7 +30,9 @@ export default function RootLayout({
       lang="en"
       className={`${interTight.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-inter">{children}</body>
+      <body className="min-h-full flex flex-col font-inter">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
