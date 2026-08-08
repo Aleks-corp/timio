@@ -32,3 +32,15 @@ export const signInSchema = yup.object({
 });
 
 export type SignInFormValues = yup.InferType<typeof signInSchema>;
+
+export const bookingFormSchema = yup.object({
+  title: yup
+    .string()
+    .trim()
+    .min(1, "Enter a meeting title")
+    .max(100, "Title must be 100 characters or fewer")
+    .required("Enter a meeting title"),
+  notes: yup.string().trim().max(500, "Notes must be 500 characters or fewer"),
+});
+
+export type BookingFormValues = yup.InferType<typeof bookingFormSchema>;

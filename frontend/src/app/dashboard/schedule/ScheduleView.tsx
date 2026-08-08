@@ -11,6 +11,7 @@ import { ScheduleHeader } from "@/components/schedule/ScheduleHeader";
 import { TimezoneNotice } from "@/components/schedule/TimezoneNotice";
 import { WeeklySchedule } from "@/components/schedule/WeeklySchedule";
 import { RoomScheduleSelector } from "@/components/schedule/RoomScheduleSelector";
+import { BookingDrawer } from "@/components/booking/BookingDrawer";
 import { listRooms, type Room } from "@/lib/roomsApi";
 import { useAsyncResource } from "@/lib/useAsyncResource";
 import {
@@ -29,6 +30,9 @@ export function ScheduleView() {
 
   const [retryToken, setRetryToken] = useState(0);
   const roomsState = useAsyncResource(listRooms, [retryToken]);
+
+  const [selectedSlot, setSelectedSlot] = useState<{ roomId: string; startAt: Date } | null>(null);
+  const [scheduleRefreshToken, setScheduleRefreshToken] = useState(0);
 
   const timeZone = useMemo(() => getBrowserTimeZone(), []);
   const currentWeekStart = useMemo(() => getMondayOfWeek(new Date()), []);
@@ -57,9 +61,6 @@ export function ScheduleView() {
     return rooms[0];
   }, [rooms, roomIdParam]);
 
-  // Normalize the URL once rooms are known: missing/invalid roomId snaps to
-  // the first room, missing/invalid week snaps to the current week. Direct
-  // URL loads are restored as-is when the params are already valid.
   useEffect(() => {
     if (roomsState.status !== "success" || !resolvedRoom) return;
 
@@ -95,6 +96,14 @@ export function ScheduleView() {
     resolvedRoom && navigateTo(resolvedRoom.id, addDaysInZone(weekStart, 7));
   const handleToday = () =>
     resolvedRoom && navigateTo(resolvedRoom.id, currentWeekStart);
+
+  const handleSlotSelect = (payload: { roomId: string; startAt: Date }) => setSelectedSlot(payload);
+  const handleDrawerClose = () => setSelectedSlot(null);
+  const handleBookingCreated = () => {
+    setSelectedSlot(null);
+    setScheduleRefreshToken((token) => token + 1);
+  };
+  const handleBookingConflict = () => setScheduleRefreshToken((token) => token + 1);
 
   return (
     <div className="flex flex-col gap-6">
@@ -136,9 +145,11 @@ export function ScheduleView() {
               weekStart={weekStart}
               currentWeekStart={currentWeekStart}
               timeZone={timeZone}
+              refreshToken={scheduleRefreshToken}
               onPreviousWeek={handlePreviousWeek}
               onNextWeek={handleNextWeek}
               onToday={handleToday}
+              onSlotSelect={handleSlotSelect}
             />
           </div>
           <div className="order-1 lg:order-2">
@@ -150,6 +161,20 @@ export function ScheduleView() {
             />
           </div>
         </div>
+      ) : null}
+
+      {selectedSlot ? (
+        <BookingDrawer
+          rooms={rooms}
+          roomId={selectedSlot.roomId}
+          startAt={selectedSlot.startAt}
+          defaultDurationMinutes={60}
+          weekStart={weekStart}
+          timeZone={timeZone}
+          onClose={handleDrawerClose}
+          onCreated={handleBookingCreated}
+          onBookingConflict={handleBookingConflict}
+        />
       ) : null}
     </div>
   );

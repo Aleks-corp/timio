@@ -24,9 +24,11 @@ interface WeeklyScheduleProps {
   weekStart: Date;
   currentWeekStart: Date;
   timeZone: string;
+  refreshToken: number;
   onPreviousWeek: () => void;
   onNextWeek: () => void;
   onToday: () => void;
+  onSlotSelect: (payload: { roomId: string; startAt: Date }) => void;
 }
 
 function WeeklyScheduleSkeleton() {
@@ -43,9 +45,11 @@ export function WeeklySchedule({
   weekStart,
   currentWeekStart,
   timeZone,
+  refreshToken,
   onPreviousWeek,
   onNextWeek,
   onToday,
+  onSlotSelect,
 }: WeeklyScheduleProps) {
   const { user } = useAuth();
   const [retryToken, setRetryToken] = useState(0);
@@ -53,7 +57,7 @@ export function WeeklySchedule({
 
   const state = useAsyncResource(
     () => getRoomWeekSchedule(roomId, weekKey),
-    [roomId, weekKey, retryToken],
+    [roomId, weekKey, retryToken, refreshToken],
   );
 
   const [now, setNow] = useState(() => new Date());
@@ -95,6 +99,7 @@ export function WeeklySchedule({
               currentUserId={user?.id}
               timeZone={timeZone}
               now={now}
+              onSlotClick={(startAt) => onSlotSelect({ roomId, startAt })}
             />
           </>
         ) : null}
@@ -109,9 +114,10 @@ interface ScheduleGridProps {
   currentUserId: string | undefined;
   timeZone: string;
   now: Date;
+  onSlotClick: (startAt: Date) => void;
 }
 
-function ScheduleGrid({ weekStart, bookings, currentUserId, timeZone, now }: ScheduleGridProps) {
+function ScheduleGrid({ weekStart, bookings, currentUserId, timeZone, now, onSlotClick }: ScheduleGridProps) {
   const days = Array.from({ length: 7 }, (_, index) => addDaysInZone(weekStart, index));
   const mondayRange = getOfficeDayRange(weekStart);
 
@@ -137,6 +143,7 @@ function ScheduleGrid({ weekStart, bookings, currentUserId, timeZone, now }: Sch
               isToday={isSameDayInZone(now, dayDate, OFFICE_TIMEZONE)}
               isWeekend={index >= 5}
               now={now}
+              onSlotClick={onSlotClick}
             />
           );
         })}

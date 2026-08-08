@@ -32,6 +32,7 @@ export function BookingBlock({
       role="group"
       aria-label={accessibleLabel}
       title={accessibleLabel}
+      onClick={(event) => event.stopPropagation()}
       className={clsx(
         "absolute inset-x-1 overflow-hidden rounded-button px-2 py-1.5 shadow-widget",
         isMine ? "bg-booking-mine" : "border border-booking-other-border bg-booking-other-bg",

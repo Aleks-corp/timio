@@ -1,3 +1,4 @@
+import { type MouseEvent } from "react";
 import clsx from "clsx";
 import { OFFICE_TIMEZONE, GRID_TOTAL_MINUTES, type OfficeDayRange } from "@/lib/officeTime";
 import type { RoomWeekBooking } from "@/lib/roomsApi";
@@ -24,6 +25,7 @@ interface DayColumnProps {
   isToday: boolean;
   isWeekend: boolean;
   now: Date;
+  onSlotClick: (startAt: Date) => void;
 }
 
 export function DayColumn({
@@ -36,10 +38,19 @@ export function DayColumn({
   isToday,
   isWeekend,
   now,
+  onSlotClick,
 }: DayColumnProps) {
   const gridHeight = getGridPixelHeight(pxPerMinute);
   const nowTop = isToday ? getNowLineTop(now, dayRange, pxPerMinute) : null;
   const hourLineCount = GRID_TOTAL_MINUTES / 60;
+
+  function handleSlotAreaClick(event: MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const offsetY = event.clientY - rect.top;
+    const rawMinutes = offsetY / pxPerMinute;
+    const snappedMinutes = Math.min(Math.max(Math.floor(rawMinutes / 30) * 30, 0), GRID_TOTAL_MINUTES - 30);
+    onSlotClick(new Date(dayRange.start.getTime() + snappedMinutes * 60000));
+  }
 
   return (
     <div
@@ -59,7 +70,11 @@ export function DayColumn({
         <p className="text-caption text-grid-muted">{dateFormatter.format(dayDate)}</p>
       </div>
 
-      <div className={clsx("relative", isWeekend ? "bg-grid-weekend" : undefined)} style={{ height: gridHeight }}>
+      <div
+        className={clsx("relative cursor-pointer", isWeekend ? "bg-grid-weekend" : undefined)}
+        style={{ height: gridHeight }}
+        onClick={handleSlotAreaClick}
+      >
         {Array.from({ length: hourLineCount }).map((_, i) => (
           <div
             key={i}
